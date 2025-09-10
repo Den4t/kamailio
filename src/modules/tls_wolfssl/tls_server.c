@@ -1053,7 +1053,12 @@ redo_read:
 				break;
 			nw += npos;
 		}
-		assert(nw == bytes_read);
+		/* assert(nw == bytes_read); */
+		if(unlikely(nw != bytes_read)) {
+			BUG("tls_h_read_f assertion check nw == bytes_read (nw=%d, bytes_read=%d, npos=%d)\n", nw, bytes_read, npos);
+			goto bug;
+		}
+
 	}
 continue_ssl_read:
 	ssl_error = WOLFSSL_ERROR_NONE;
